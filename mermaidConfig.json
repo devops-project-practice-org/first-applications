@@ -1,0 +1,20 @@
+{
+  "theme": "default",
+  "themeVariables": {
+    "primaryColor": "#3B82F6",
+    "primaryTextColor": "#1F2937",
+    "primaryBorderColor": "#1E40AF",
+    "lineColor": "#6B7280",
+    "sectionBkgColor": "#F3F4F6",
+    "altSectionBkgColor": "#E5E7EB",
+    "gridColor": "#D1D5DB",
+    "secondaryColor": "#06B6D4",
+    "tertiaryColor": "#8B5CF6"
+  },
+  "fontFamily": "Inter",
+  "fontSize": 14,
+  "darkMode": false,
+  "background": "#FFFFFF",
+  "width": 1200,
+  "height": 800
+}

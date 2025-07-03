@@ -1,0 +1,43 @@
+flowchart TD
+    Start([User wants to inquire about property]) --> ViewProperty[View Property Details]
+    ViewProperty --> CheckAuth{User logged in?}
+    
+    CheckAuth -->|No| LoginPrompt[Show login prompt]
+    LoginPrompt --> Login[User logs in]
+    Login --> FillForm[Fill inquiry form]
+    
+    CheckAuth -->|Yes| FillForm[Fill inquiry form]
+    
+    FillForm --> ValidateForm{Form valid?}
+    ValidateForm -->|No| ShowErrors[Show validation errors]
+    ShowErrors --> FillForm
+    
+    ValidateForm -->|Yes| SubmitInquiry[Submit inquiry to backend]
+    SubmitInquiry --> SaveToDB[(Save to database)]
+    SaveToDB --> NotifyAgent[Send notification to agent]
+    
+    NotifyAgent --> ShowSuccess[Show success message to user]
+    ShowSuccess --> OfferWhatsApp{Offer WhatsApp contact?}
+    
+    OfferWhatsApp -->|Yes| OpenWhatsApp[Open WhatsApp with pre-filled message]
+    OfferWhatsApp -->|No| End([End])
+    OpenWhatsApp --> End
+    
+    %% Alternative flow - Direct WhatsApp
+    ViewProperty --> DirectWhatsApp[Click WhatsApp button]
+    DirectWhatsApp --> GenerateMessage[Generate WhatsApp message with property details]
+    GenerateMessage --> OpenWhatsAppDirect[Open WhatsApp app]
+    OpenWhatsAppDirect --> End
+    
+    %% Styling
+    classDef startEnd fill:#10B981,stroke:#059669,stroke-width:2px,color:#ffffff
+    classDef process fill:#3B82F6,stroke:#1E40AF,stroke-width:2px,color:#ffffff
+    classDef decision fill:#F59E0B,stroke:#D97706,stroke-width:2px,color:#ffffff
+    classDef database fill:#8B5CF6,stroke:#7C3AED,stroke-width:2px,color:#ffffff
+    classDef error fill:#EF4444,stroke:#DC2626,stroke-width:2px,color:#ffffff
+    
+    class Start,End startEnd
+    class ViewProperty,Login,FillForm,SubmitInquiry,NotifyAgent,ShowSuccess,OpenWhatsApp,DirectWhatsApp,GenerateMessage,OpenWhatsAppDirect process
+    class CheckAuth,ValidateForm,OfferWhatsApp decision
+    class SaveToDB database
+    class LoginPrompt,ShowErrors error

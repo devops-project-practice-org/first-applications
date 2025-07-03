@@ -1,0 +1,73 @@
+sequenceDiagram
+    participant U as User (Browser)
+    participant F as Frontend (React)
+    participant B as Backend (Express)
+    participant D as Database (PostgreSQL)
+    participant W as WhatsApp API
+    participant C as Chatbot Service
+    
+    Note over U,C: Property Inquiry & Communication Flow
+    
+    U->>F: Browse properties page
+    F->>B: GET /api/properties?filters
+    B->>D: SELECT properties WHERE conditions
+    D-->>B: Return property data
+    B-->>F: JSON response with properties
+    F-->>U: Display property cards
+    
+    U->>F: Click property for details
+    F->>B: GET /api/properties/:id
+    B->>D: SELECT property with agent details
+    D-->>B: Return property + agent data
+    B-->>F: JSON response
+    F-->>U: Show property details page
+    
+    Note over U,C: User submits inquiry
+    U->>F: Fill inquiry form & submit
+    F->>F: Validate form data
+    F->>B: POST /api/inquiries (with JWT token)
+    B->>B: Verify JWT authentication
+    B->>D: INSERT into inquiries table
+    D-->>B: Return created inquiry
+    B-->>F: Success response
+    F-->>U: Show success message
+    
+    Note over U,W: WhatsApp Integration Flow
+    U->>F: Click WhatsApp button
+    F->>F: Generate WhatsApp message with property details
+    F->>W: Open WhatsApp with pre-filled message
+    W-->>U: WhatsApp app opens with message
+    
+    Note over U,C: Chatbot Interaction Flow
+    U->>F: Open chatbot widget
+    U->>F: Send message "Tell me about Lahore properties"
+    F->>C: Process message with Pakistani city context
+    C->>C: Analyze message & generate response
+    C-->>F: Return contextual response with suggestions
+    F-->>U: Display chatbot response with property suggestions
+    
+    Note over F,D: Real-time Updates
+    B->>D: Listen for database changes
+    D-->>B: Trigger on new inquiries
+    B-->>F: WebSocket notification (if implemented)
+    F-->>U: Update UI with real-time data
+    
+    Note over U,D: Authentication Flow
+    U->>F: Login with credentials
+    F->>B: POST /api/auth/login
+    B->>D: SELECT user WHERE email = ?
+    D-->>B: Return user data
+    B->>B: Verify password with bcrypt
+    B->>B: Generate JWT token
+    B-->>F: Return JWT token
+    F->>F: Store token in localStorage
+    F-->>U: Redirect to dashboard
+    
+    Note over U,D: Location Services
+    U->>F: Click "Near Me" filter
+    F->>F: Get user location (GPS)
+    F->>B: GET /api/properties?lat=X&lng=Y&radius=Z
+    B->>D: SELECT properties within radius using coordinates
+    D-->>B: Return nearby properties
+    B-->>F: JSON response with distance calculations
+    F-->>U: Show properties sorted by distance

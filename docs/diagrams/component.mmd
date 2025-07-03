@@ -1,0 +1,160 @@
+graph TB
+    subgraph "PropertyHub - Component Architecture"
+        subgraph "Frontend Layer (React + TypeScript)"
+            subgraph "Pages"
+                LP[Landing Page]
+                HP[Home Page]
+                PLP[Properties List]
+                PDP[Property Detail]
+                DP[Dashboard]
+                AP[Auth Pages]
+            end
+            
+            subgraph "Components"
+                NAV[Navigation]
+                PS[Property Search]
+                PC[Property Card]
+                PF[Property Filters]
+                PM[Property Map]
+                CB[Chatbot]
+                WB[WhatsApp Button]
+                LT[Language Toggle]
+                RA[Rent Analyzer]
+                NM[Near Me Filter]
+                NT[Negotiation Tips]
+            end
+            
+            subgraph "State Management"
+                TQ[TanStack Query]
+                AH[Auth Hooks]
+                LH[Language Hooks]
+            end
+            
+            subgraph "UI Library"
+                SH[shadcn/ui]
+                TW[Tailwind CSS]
+                LU[Lucide Icons]
+            end
+        end
+        
+        subgraph "Backend Layer (Express + TypeScript)"
+            subgraph "Routes & Controllers"
+                AR[Auth Routes]
+                PR[Property Routes]
+                IR[Inquiry Routes]
+                UR[User Routes]
+                SR[Search Routes]
+            end
+            
+            subgraph "Middleware"
+                AM[Auth Middleware]
+                VM[Validation Middleware]
+                RM[Role Middleware]
+                EM[Error Middleware]
+            end
+            
+            subgraph "Services"
+                AS[Auth Service]
+                PS_SVC[Property Service]
+                IS[Inquiry Service]
+                NS[Notification Service]
+            end
+        end
+        
+        subgraph "Data Layer"
+            subgraph "Database (PostgreSQL)"
+                UT[Users Table]
+                PT[Properties Table]
+                IT[Inquiries Table]
+                SPT[Saved Properties Table]
+                SST[Saved Searches Table]
+                ST[Sessions Table]
+            end
+            
+            subgraph "ORM & Validation"
+                DO[Drizzle ORM]
+                ZV[Zod Validation]
+                SC[Schema Definitions]
+            end
+        end
+        
+        subgraph "External Services"
+            GM[Google Maps API]
+            WA[WhatsApp Integration]
+            AI[AI Chatbot Service]
+        end
+        
+        subgraph "Build & Development"
+            VT[Vite Build Tool]
+            TS[TypeScript Compiler]
+            ES[ESLint]
+            DK[Drizzle Kit]
+        end
+    end
+    
+    %% Frontend connections
+    LP --> NAV
+    HP --> PS
+    PLP --> PC
+    PLP --> PF
+    PDP --> PM
+    PDP --> WB
+    PDP --> NT
+    
+    %% Component interactions
+    PS --> NM
+    NAV --> LT
+    HP --> CB
+    HP --> RA
+    
+    %% State management
+    TQ --> AR
+    TQ --> PR
+    AH --> AM
+    LH --> LT
+    
+    %% Backend connections
+    AR --> AS
+    PR --> PS_SVC
+    IR --> IS
+    
+    %% Middleware chain
+    AM --> VM
+    VM --> RM
+    RM --> EM
+    
+    %% Data layer
+    AS --> UT
+    PS_SVC --> PT
+    IS --> IT
+    
+    %% ORM connections
+    DO --> UT
+    DO --> PT
+    DO --> IT
+    DO --> SPT
+    DO --> SST
+    DO --> ST
+    
+    %% External services
+    PM --> GM
+    WB --> WA
+    CB --> AI
+    
+    %% Build tools
+    VT --> TS
+    VT --> ES
+    DK --> DO
+    
+    %% Styling
+    classDef frontend fill:#3B82F6,stroke:#1E40AF,stroke-width:2px,color:#ffffff
+    classDef backend fill:#10B981,stroke:#059669,stroke-width:2px,color:#ffffff
+    classDef database fill:#8B5CF6,stroke:#7C3AED,stroke-width:2px,color:#ffffff
+    classDef external fill:#F59E0B,stroke:#D97706,stroke-width:2px,color:#ffffff
+    classDef build fill:#6B7280,stroke:#4B5563,stroke-width:2px,color:#ffffff
+    
+    class LP,HP,PLP,PDP,DP,AP,NAV,PS,PC,PF,PM,CB,WB,LT,RA,NM,NT,TQ,AH,LH,SH,TW,LU frontend
+    class AR,PR,IR,UR,SR,AM,VM,RM,EM,AS,PS_SVC,IS,NS backend
+    class UT,PT,IT,SPT,SST,ST,DO,ZV,SC database
+    class GM,WA,AI external
+    class VT,TS,ES,DK build

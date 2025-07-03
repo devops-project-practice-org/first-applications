@@ -1,0 +1,104 @@
+graph TB
+    subgraph "PropertyHub - Pakistani Real Estate Platform"
+        subgraph "Actors"
+            G[Guest User]
+            U[Registered User]
+            A[Agent]
+            AD[Admin]
+        end
+        
+        subgraph "Authentication Use Cases"
+            UC1[Register Account]
+            UC2[Login/Logout]
+            UC3[Update Profile]
+        end
+        
+        subgraph "Property Discovery Use Cases"
+            UC4[Browse Properties]
+            UC5[Search & Filter]
+            UC6[View Property Details]
+            UC7[View Location on Map]
+            UC8[Get Directions]
+        end
+        
+        subgraph "User Interaction Use Cases"
+            UC9[Save Properties]
+            UC10[Submit Inquiry]
+            UC11[Contact via WhatsApp]
+            UC12[Use Chatbot]
+            UC13[Analyze Rent Prices]
+        end
+        
+        subgraph "Property Management Use Cases"
+            UC14[Add Property Listing]
+            UC15[Edit Property]
+            UC16[Delete Property]
+            UC17[Manage Inquiries]
+            UC18[View Analytics]
+        end
+        
+        subgraph "Localization Use Cases"
+            UC19[Switch Language EN/UR]
+            UC20[Search Pakistani Cities]
+            UC21[Near Me Search]
+        end
+        
+        subgraph "Administrative Use Cases"
+            UC22[Manage Users]
+            UC23[Moderate Content]
+            UC24[System Configuration]
+        end
+    end
+    
+    %% Guest User connections
+    G --> UC1
+    G --> UC2
+    G --> UC4
+    G --> UC5
+    G --> UC6
+    G --> UC7
+    G --> UC8
+    G --> UC12
+    G --> UC19
+    G --> UC20
+    
+    %% Registered User connections
+    U --> UC2
+    U --> UC3
+    U --> UC4
+    U --> UC5
+    U --> UC6
+    U --> UC7
+    U --> UC8
+    U --> UC9
+    U --> UC10
+    U --> UC11
+    U --> UC12
+    U --> UC13
+    U --> UC19
+    U --> UC20
+    U --> UC21
+    
+    %% Agent connections
+    A --> UC2
+    A --> UC3
+    A --> UC14
+    A --> UC15
+    A --> UC16
+    A --> UC17
+    A --> UC18
+    A --> UC4
+    A --> UC5
+    A --> UC6
+    
+    %% Admin connections
+    AD --> UC22
+    AD --> UC23
+    AD --> UC24
+    AD --> UC18
+    
+    classDef actorStyle fill:#3B82F6,stroke:#1E40AF,stroke-width:2px,color:#ffffff
+    classDef usecaseStyle fill:#F3F4F6,stroke:#6B7280,stroke-width:1px,color:#1F2937
+    
+    class G,U,A,AD actorStyle
+    class UC1,UC2,UC3,UC4,UC5,UC6,UC7,UC8,UC9,UC10,UC11,UC12,UC13,UC14,UC15,UC16,UC17,UC18,UC19,UC20,UC21,UC22,UC23,UC24 usecaseStyle

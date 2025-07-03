@@ -1,0 +1,97 @@
+flowchart TD
+    subgraph "External Entities"
+        EU1[Guest Users]
+        EU2[Registered Users]
+        EU3[Property Agents]
+        EU4[System Admins]
+        EU5[WhatsApp Service]
+        EU6[Google Maps API]
+    end
+    
+    subgraph "PropertyHub System - Level 1 DFD"
+        P1[Authentication Process]
+        P2[Property Management Process]
+        P3[Search & Discovery Process]
+        P4[Inquiry Management Process]
+        P5[Communication Process]
+        P6[Localization Process]
+        P7[Analytics Process]
+    end
+    
+    subgraph "Data Stores"
+        DS1[(User Database)]
+        DS2[(Property Database)]
+        DS3[(Inquiry Database)]
+        DS4[(Saved Properties Database)]
+        DS5[(Search History Database)]
+        DS6[(Session Store)]
+    end
+    
+    %% External Entity to Process flows
+    EU1 -->|Registration Data| P1
+    EU1 -->|Search Queries| P3
+    EU1 -->|Property Views| P2
+    EU1 -->|Language Preference| P6
+    
+    EU2 -->|Login Credentials| P1
+    EU2 -->|Property Inquiries| P4
+    EU2 -->|Save Property Requests| P2
+    EU2 -->|Communication Requests| P5
+    
+    EU3 -->|Property Listings| P2
+    EU3 -->|Inquiry Responses| P4
+    EU3 -->|Profile Updates| P1
+    
+    EU4 -->|User Management| P1
+    EU4 -->|System Configuration| P7
+    EU4 -->|Content Moderation| P2
+    
+    %% Process to Data Store flows
+    P1 -->|User Records| DS1
+    P1 -->|Session Data| DS6
+    P2 -->|Property Data| DS2
+    P2 -->|Saved Properties| DS4
+    P3 -->|Search Queries| DS5
+    P4 -->|Inquiry Records| DS3
+    
+    %% Data Store to Process flows
+    DS1 -->|User Information| P1
+    DS1 -->|Agent Details| P2
+    DS2 -->|Property Listings| P3
+    DS2 -->|Property Details| P4
+    DS3 -->|Inquiry Data| P4
+    DS4 -->|Saved Items| P2
+    DS6 -->|Session Info| P1
+    
+    %% Process to External Entity flows
+    P1 -->|Authentication Status| EU2
+    P1 -->|User Profiles| EU3
+    P2 -->|Property Listings| EU1
+    P2 -->|Property Details| EU2
+    P3 -->|Search Results| EU1
+    P4 -->|Inquiry Confirmations| EU2
+    P4 -->|New Inquiries| EU3
+    P5 -->|WhatsApp Messages| EU5
+    P6 -->|Localized Content| EU1
+    P7 -->|Analytics Reports| EU4
+    
+    %% External API integrations
+    P2 -->|Location Requests| EU6
+    EU6 -->|Map Data| P2
+    P5 -->|Message Requests| EU5
+    EU5 -->|Delivery Status| P5
+    
+    %% Data flow labels
+    P1 -.->|"User Auth, Sessions, Profiles"| DS1
+    P2 -.->|"CRUD Operations"| DS2
+    P3 -.->|"Search Filters, Results"| DS2
+    P4 -.->|"Inquiry CRUD"| DS3
+    
+    %% Styling
+    classDef externalEntity fill:#10B981,stroke:#059669,stroke-width:2px,color:#ffffff
+    classDef process fill:#3B82F6,stroke:#1E40AF,stroke-width:2px,color:#ffffff
+    classDef dataStore fill:#8B5CF6,stroke:#7C3AED,stroke-width:2px,color:#ffffff
+    
+    class EU1,EU2,EU3,EU4,EU5,EU6 externalEntity
+    class P1,P2,P3,P4,P5,P6,P7 process
+    class DS1,DS2,DS3,DS4,DS5,DS6 dataStore

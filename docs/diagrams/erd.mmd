@@ -1,0 +1,73 @@
+erDiagram
+    USERS ||--o{ PROPERTIES : "agent_owns"
+    USERS ||--o{ INQUIRIES : "user_submits"
+    USERS ||--o{ SAVED_PROPERTIES : "user_saves"
+    USERS ||--o{ SAVED_SEARCHES : "user_creates"
+    
+    PROPERTIES ||--o{ INQUIRIES : "property_receives"
+    PROPERTIES ||--o{ SAVED_PROPERTIES : "property_saved"
+    
+    USERS {
+        int id PK
+        string email UK "Unique email address"
+        string password "Hashed with bcrypt"
+        string name "Full name"
+        string phone "Contact number"
+        enum role "guest, user, agent, admin"
+        boolean is_verified "Email verification status"
+        string profile_image_url "Profile picture URL"
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    PROPERTIES {
+        int id PK
+        string title "Property title"
+        text description "Detailed description"
+        decimal price "Property price in PKR"
+        string address "Street address"
+        string city "Lahore, Karachi, Islamabad"
+        string state "Punjab, Sindh, ICT"
+        string zip_code "Postal code"
+        int bedrooms "Number of bedrooms"
+        int bathrooms "Number of bathrooms"
+        int sqft "Square footage"
+        enum property_type "house, apartment, commercial"
+        enum listing_type "sale, rent"
+        decimal latitude "GPS coordinates"
+        decimal longitude "GPS coordinates"
+        text_array images "Property image URLs"
+        text_array amenities "Property features"
+        boolean is_featured "Featured listing flag"
+        boolean is_available "Availability status"
+        int agent_id FK "References USERS.id"
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    INQUIRIES {
+        int id PK
+        int property_id FK "References PROPERTIES.id"
+        int user_id FK "References USERS.id"
+        string name "Inquirer name"
+        string email "Contact email"
+        string phone "Contact phone"
+        text message "Inquiry message"
+        enum status "new, contacted, viewed, closed"
+        timestamp created_at
+    }
+    
+    SAVED_PROPERTIES {
+        int id PK
+        int user_id FK "References USERS.id"
+        int property_id FK "References PROPERTIES.id"
+        timestamp created_at
+    }
+    
+    SAVED_SEARCHES {
+        int id PK
+        int user_id FK "References USERS.id"
+        string search_name "User-defined search name"
+        json search_params "Search criteria in JSON"
+        timestamp created_at
+    }
